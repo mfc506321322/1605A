@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer" />
     <title>ES6</title>
+    <style>
+        img{
+            width: 30%;
+        }
+    </style>    
 </head>
 <body>
     <script>
@@ -132,26 +138,20 @@
         })
 
         // 图片加载的promise
-        var loadImg = (src)=>{
-            return new Promise((resolve, reject)=>{
-                var img = new Image();
-                img.src = src;
-                img.onload = ()=>{
-                    // resolve(img);
-                    reject(new Error());
-                }
-                img.onerror = ()=>{
-                    reject(new Error());
-                }
-            })
-        }
+        // var loadImg = (src)=>{
+        //     return new Promise((resolve, reject)=>{
+        //         var img = new Image();
+        //         img.src = src;
+        //         img.onload = ()=>{
+        //             resolve(img);
+        //             // reject(new Error());
+        //         }
+        //         img.onerror = ()=>{
+        //             reject(new Error());
+        //         }
+        //     })
+        // }
 
-        /**
-         作业：加载十张图片
-            1. 依次加载，第一张加载完毕加载第二张图片   loadImg + async
-            2. 并行加载，谁先加载完毕谁先添加到dom中    loadImg + async
-            3. 当十张图片全部加载完毕一起添加到dom中    不准使用promise
-        */
 
         /**
          async/await
@@ -163,13 +163,126 @@
         async function func(){
             try{
                 let img = await loadImg(url);
+                document.body.appendChild(img);
             }catch(err){
                 console.log(err);
             }
-            // document.body.appendChild(img);
             return 100;
         }
         func().then(res=>console.log('func...', res));
+
+
+        /**
+         作业：加载十张图片
+            1. 依次加载，第一张加载完毕加载第二张图片   loadImg + async
+            2. 并行加载，谁先加载完毕谁先添加到dom中    loadImg + async
+            3. 当十张图片全部加载完毕一起添加到dom中    不准使用promise
+        */
+        const list = [
+            "http://img.zcool.cn/community/015da9554971170000019ae9f43459.jpg@2o.jpg",
+            "http://img.zcool.cn/community/017c5d554909920000019ae9d202fe.jpg@1280w_1l_2o_100sh.jpg",
+            "http://www.17qq.com/img_qqtouxiang/76490995.jpeg",
+            "http://wx2.sinaimg.cn/large/006nLajtly1fk65lrevkqj30dw0dwadz.jpg",
+            "http://wx4.sinaimg.cn/large/67b2eab9ly1flwuchb5vlj20dw0dwdi1.jpg",
+            "http://wx4.sinaimg.cn/large/a1b61d0aly1fn2h3xwat6j20dw0dwtbp.jpg",
+            "http://gbres.dfcfw.com/Files/picture/20181027/45CFDF18A401B77C64CDDFF59F6E1A6A.jpg",
+            "http://pic.58pic.com/58pic/14/03/02/58V58PICTFk_1024.jpg",
+            "http://tupian.qqjay.com/u/2017/1208/3_143331_8.jpg",
+            "http://gbres.dfcfw.com/Files/picture/20180123/size500/8500AF041D0CBA36227FB1FFCD9E1B05.gif"
+        ]
+
+        // 1.依次加载
+        async function loadSync(){
+            for (let i=0,len=list.length; i<len; i++){
+                let img = await loadImg(list[i]);
+                document.body.appendChild(img);
+            }
+        }
+
+        // 并行加载
+        function loadAsync(){
+            list.forEach(async item=>{
+                let img = await loadImg(item);
+                document.body.appendChild(img);
+            })
+        }
+        
+        // es5实现一个轮询
+        function loopFunc(){
+            var loaded = [];
+            list.forEach(item=>{
+                let img = new Image();
+                img.src = item;
+                img.onload = ()=>{
+                    loaded.push(img);
+                    if (loaded.length == list.length){
+                        loaded.forEach(value=>document.body.appendChild(value))
+                    }
+                }
+            })
+        }
+
+        // loadSync();
+        // loadAsync();
+        // loopFunc();
+
+
+        // 用es5简单实现一个Promise
+        function MyPromise(func){
+            // promise的状态
+            this.status = 'pennding';
+            // promise里的函数会立即执行，通过bind改变reslove和reject的this指向，如果不改变拿不到status
+            func(this.resolve.bind(this), this.reject.bind(this));
+        }
+
+        // 封装的resolve方法，在里面调用then传进来的resolveFunc
+        MyPromise.prototype.resolve = function(res){
+            if (this.status == 'pennding'){
+                this.status = 'fulfilled';
+                // 通过异步操作让resolve执行晚于resolve的赋值
+                setTimeout(()=>{
+                    this.resolveFunc(res);
+                }, 0)
+            }
+        }
+
+        // 封装的reject方法，在里面调用then传进来的rejectFunc
+        MyPromise.prototype.reject = function(res){
+            if (this.status == 'pennding'){
+                this.status = 'rejected';
+                // 通过异步操作让reject执行晚于reject的赋值
+                setTimeout(()=>{
+                    this.rejectFunc(res);
+                }, 0)
+            }
+        }
+
+        // 封装then方法，传入promise状态改变的处理函数
+        MyPromise.prototype.then = function(resolve, reject){
+            this.resolveFunc = resolve;
+            this.rejectFunc = reject;
+        }
+
+        var loadImg = (src)=>{
+            return new MyPromise((resolve, reject)=>{
+                var img = new Image();
+                img.src = src;
+                img.onload = ()=>{
+                    resolve(img);
+                    reject(new Error());
+                }
+                img.onerror = ()=>{
+                    reject(new Error());
+                }
+            })
+        }
+        
+        loadImg(url).then(res=>{
+            console.log('使用自己封装的promise...', res);
+            document.body.appendChild(res);
+        }, err=>{
+            console.log('err...', err);
+        })
     </script>
 </body>
 </html>
