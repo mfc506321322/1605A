@@ -1,0 +1,32 @@
+.button{
+  border: 1px solid #eee;
+  padding: 3px;
+}
+.button1{
+  border: 1px solid #eee;
+  padding: 3px;
+}
+
+// css写global
+:global(.btn){
+  padding: 10px;
+  background: #3aacff;
+  border: 10px;
+}
+
+button{
+  color: aqua;
+}
+
+:global{
+  .btn1{
+    padding: 10px;
+    background: #3aacff;
+    border-radius: 10px;
+  }
+  .btn2{
+    padding: 10px;
+    background: #3aacff;
+    border-radius: 10px;
+  }
+}

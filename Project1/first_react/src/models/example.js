@@ -24,6 +24,11 @@ export default {
     save(state, action) {
       return { ...state, ...action.payload };
     },
+    update(state, action) {
+      setTimeout(()=>{
+        return {a:1}
+      }, 3000);
+    }
   },
 
 };
