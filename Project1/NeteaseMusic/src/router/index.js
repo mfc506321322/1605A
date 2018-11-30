@@ -1,58 +1,43 @@
 import React from 'react';
-import {NavLink} from 'dva/router';
 import dynamic from 'dva/dynamic';
-import RouterView from './RouterView';
 
-// const Series = dynamic({
-  // component: () => import('../routes/SeriesPage'),
-// });
+// 引入一级路由
+import LoginPage from '../routes/LoginPage';
+import MainPage from '../routes/MainPage';
 
-// 声明无状态组件
-const StateLess = props=>{
-  // console.log('props...', props);
-  return <h1>{props.match.path}</h1>
-}
-
-const Animation = props=>{
-  console.log('props...', props);
-  return <React.Fragment>
-    <RouterView routes={props.routes}></RouterView>
-
-    <footer>
-      <NavLink to="/animation/1">动漫1</NavLink>
-      <NavLink to="/animation/2">动漫2</NavLink>
-      <NavLink to="/animation/3">动漫3</NavLink>
-      <NavLink to="/animation/4">动漫4</NavLink>
-    </footer>
-  </React.Fragment>
-}
+// 引入二级路由
+import AccountPage from '../routes/account/Index';
+import DiscoverPage from '../routes/discover/Index';
+import FriendPage from '../routes/friend/Index';
+import MyPage from '../routes/my/Index';
+import VideoPage from '../routes/video/Index';
 
 
 export default {
   routes: [{
-    path: '/animation',
-    component: Animation,
+    path: '/login',
+    component: LoginPage
+  }, {
+    path: '/main',
+    component: MainPage,
     children: [{
-      path: '/animation/1',
-      component: StateLess
+      path: '/main/account',
+      component: AccountPage
     },{
-      path: '/animation/2',
-      component: StateLess
+      path: '/main/discover',
+      component: DiscoverPage
     },{
-      path: '/animation/3',
-      component: StateLess
+      path: '/main/friend',
+      component: FriendPage
     },{
-      path: '/animation/4',
-      component: StateLess
+      path: '/main/my',
+      component: MyPage
+    },{
+      path: '/main/video',
+      component: VideoPage
     }]
   },{
-    path: '/music',
-    component: StateLess
-  },{
-    path: '/dance',
-    component: StateLess
-  },{
     path: '/',
-    redirect: '/animation'
+    redirect: '/main/discover'
   }]
 }

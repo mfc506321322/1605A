@@ -1,8 +1,9 @@
 import React from 'react';
-import { Router, Route, Switch, NavLink } from 'dva/router';
-import IndexPage from './routes/IndexPage';
+import { Router} from 'dva/router';
 
+// 引入路由配置项
 import config from './router/index';
+// 引入封装的路由组件
 import RouterView from './router/RouterView';
 
 function RouterConfig({ history }) {
@@ -10,12 +11,6 @@ function RouterConfig({ history }) {
     <Router history={history}>
       <React.Fragment>
         <RouterView routes={config.routes}></RouterView>
-
-        <footer>
-          <NavLink to="/animation">动漫</NavLink>
-          <NavLink to="/music">音乐</NavLink>
-          <NavLink to="/dance">舞蹈</NavLink>
-        </footer>
       </React.Fragment>
     </Router>
   );
