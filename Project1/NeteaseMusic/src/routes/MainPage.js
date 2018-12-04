@@ -9,7 +9,7 @@ class MainPage extends React.PureComponent{
       <h1>{this.props.match.path}</h1>
       <RouterView routes={this.props.routes}></RouterView>
 
-      <footer>
+      <footer className={styles.footer}>
         <NavLink to="/main/discover">
           <p></p>
           <span>发现</span>

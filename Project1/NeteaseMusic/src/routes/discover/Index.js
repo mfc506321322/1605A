@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
+import {NavLink} from 'dva/router';
 import { Carousel } from 'antd-mobile';
 
 @connect(({discover})=>{
@@ -20,7 +21,8 @@ class Index extends React.PureComponent{
   render(){
     console.log('props..', this.props);
     let {banners} = this.props;
-    return <Carousel
+    return <div>
+      {/* <Carousel
           autoplay={false}
           infinite
           beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
@@ -29,7 +31,17 @@ class Index extends React.PureComponent{
           banners.map((item, index)=>{
             return <img key={index} src={item.imageUrl}/>
           })
-        }</Carousel>
+        }</Carousel> */}
+        <section>
+          <NavLink to={{
+            pathname: '/main/recommend',
+            state: {a:1}
+          }}>每日推荐</NavLink>
+          <NavLink to={{
+            pathname: '/main/search'
+          }} replace>搜索</NavLink>
+        </section>
+     </div>
   }
 }
 

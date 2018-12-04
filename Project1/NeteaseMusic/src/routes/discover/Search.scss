@@ -1,0 +1,13 @@
+ul{
+  overflow: hidden;
+}
+.item{
+  p:first-child{
+    font-size: .3rem;
+  }
+  p:nth-child(2){
+    font-size: .26rem;
+  }
+  border-bottom: 1px solid #c0c0c0;
+  padding: .15rem .3rem;
+}
