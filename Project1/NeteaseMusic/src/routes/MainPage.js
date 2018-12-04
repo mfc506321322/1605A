@@ -6,8 +6,10 @@ import styles from './MainPage.scss';
 class MainPage extends React.PureComponent{
   render(){
     return <React.Fragment>
-      <h1>{this.props.match.path}</h1>
-      <RouterView routes={this.props.routes}></RouterView>
+      {/* <h1>{this.props.match.path}</h1> */}
+      <div className={styles.container}>
+        <RouterView routes={this.props.routes}></RouterView>
+      </div>
 
       <footer className={styles.footer}>
         <NavLink to="/main/discover">

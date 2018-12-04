@@ -11,3 +11,8 @@ export function login(params){
 export function getUrl(id){
   return request(`${host}/song/url?id=${id}`)
 }
+
+// 获取歌曲详情
+export function getDetail(id){
+  return request(`${host}/song/detail?ids=${id}`)
+}
