@@ -18,6 +18,11 @@ import {formatTime} from '../utils/index';
         type: 'play/changePlay',
         payload
       })
+    },
+    changeMode: ()=>{
+      dispatch({
+        type: 'play/changeMode',
+      })
     }
   }
 })
@@ -40,6 +45,16 @@ class Play extends React.PureComponent{
     let progress = this.refs.audio.currentTime/this.refs.audio.duration*100;
     this.setState({
         progress
+    }, ()=>{
+      if (this.state.progress == 100){
+        // 自动播放下一首
+        this.props.chanagePlay('next');
+        if (!this.props.playList.length){
+          this.refs.audio.pause();
+          this.refs.audio.currentTime = 0;
+          this.refs.audio.play();
+        }
+      }
     })
   }
 
@@ -57,6 +72,11 @@ class Play extends React.PureComponent{
       return formatTime(this.refs.audio.currentTime);
     }
     return '00:00';
+  }
+
+  // 获取播放模式
+  get mode(){
+    return this.props.mode==1?'单曲循环':this.props.mode==2?'随机播放':'列表循环'
   }
 
   // 播放/暂停
@@ -108,6 +128,11 @@ class Play extends React.PureComponent{
     this.props.chanagePlay(type);
   }
 
+  // 切换播放模式
+  changeMode(){
+    this.props.changeMode();
+  }
+
   render(){
     // console.log('play page...', this.props);
     if (!Object.keys(this.props.detail).length){
@@ -132,12 +157,24 @@ class Play extends React.PureComponent{
         </div>
 
         <div>
+          <button onClick={()=>this.changeMode()}>{this.mode}</button>
           <button onClick={()=>this.chanagePlay('prev')}>上一曲</button>
           <button onClick={this.changeState.bind(this)}>{this.state.isPlay?'暂停':'播放'}</button>
           <button onClick={()=>this.chanagePlay('next')}>下一曲</button>
         </div>
       </div>
       {this.props.url?<audio src={this.props.url} autoPlay ref="audio" onTimeUpdate={()=>this.timeUpdate()}></audio>:null}
+      <ul>{
+        this.props.playList.map((item, index)=>{
+          return <li className={styles.item} key={index}>
+              <img src={item.detail.al.picUrl}/>
+              <div>
+                <p>{item.detail.name}</p>
+                <p>{`${item.detail.al.name}`}</p>
+              </div>
+            </li>
+        })
+      }</ul>
     </div>
   }
 }

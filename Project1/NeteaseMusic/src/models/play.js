@@ -5,6 +5,7 @@ export default {
   state: {
     id: 0,
     url: '',
+    mode: 1,  // 1表示单曲循环，2表示随机播放，3表示顺序播放
     info: {}, // 歌曲信息
     detail: {}, // 歌曲详情
     current: 0, // 当前播放歌曲下标
@@ -55,30 +56,51 @@ export default {
   },
 
   reducers: {
+    // 更新state
     updateState(state, action){
       console.log('action...', action);
       return {...state, ...action.payload}
     },
+    // 切换歌曲
     changePlay(state, {payload}){
       let newState = {...state};
-      if (payload == 'prev'){
-        if (state.current == 0){
-          newState.current = state.playList.length-1;
-        }else{
-          newState.current--;
-        }
+      // 如果没有播放列表，不再继续处理
+      if (!state.playList.length || state.mode == 1){
+        return newState;
+      }
+      // 随机播放
+      if (state.mode == 2){
+        let index = Math.floor(Math.random()*(state.playList.length-1));
+        console.log('index...', index);
+        newState.current = index;
       }else{
-        if (state.current == state.playList.length-1){
-          newState.current = 0;
+         // 顺序播放
+        if (payload == 'prev'){
+          if (state.current == 0){
+            newState.current = state.playList.length-1;
+          }else{
+            newState.current--;
+          }
         }else{
-          newState.current++;
+          if (state.current == state.playList.length-1){
+            newState.current = 0;
+          }else{
+            newState.current++;
+          }
         }
       }
+
       newState.id = state.playList[newState.current].info.id;
       newState.url = state.playList[newState.current].info.url;
       newState.info = state.playList[newState.current].info;
       newState.detail = state.playList[newState.current].detail;
 
+      return newState;
+    },
+    // 改变播放模式
+    changeMode(state){
+      let newState = {...state};
+      newState.mode = (newState.mode)%3+1;
       return newState;
     }
   }
