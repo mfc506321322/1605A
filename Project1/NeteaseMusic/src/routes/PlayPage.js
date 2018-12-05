@@ -12,9 +12,15 @@ import {formatTime} from '../utils/index';
         type: 'play/getUrl',
         payload: id
       })
-    }}
+    },
+    chanagePlay: payload=>{
+      dispatch({
+        type: 'play/changePlay',
+        payload
+      })
+    }
   }
-)
+})
 class Play extends React.PureComponent{
   constructor(){
     super();
@@ -62,27 +68,73 @@ class Play extends React.PureComponent{
     })
   }
 
+  // 触摸进度条事件
+  touchStart(){
+    this.setState({
+      isPlay: false
+    }, ()=>{
+      this.refs.audio.pause();
+    })
+  }
+  // 移动过进度条
+  touchMove(e){
+    // console.log('触摸事件...', e.touches);
+    let touch = e.touches[0],
+        progressEle = this.refs.progress;
+    let progress = (touch.pageX - progressEle.offsetLeft)/progressEle.offsetWidth;
+    if (progress>1){
+      progress = 1;
+    }
+    if (progress<0){
+      progress = 0;
+    }
+    this.setState({
+      progress: progress*100
+    }, ()=>{
+      this.refs.audio.currentTime = progress*this.refs.audio.duration
+    })
+    // console.log('progress..', progress, progress*this.refs.audio.duration);
+  }
+  // 离开进度条
+  touchEnd(){
+    this.setState({
+      isPlay: true
+    }, ()=>{
+      this.refs.audio.play();
+    })
+  }
+  // 切换歌曲
+  chanagePlay(type){
+    this.props.chanagePlay(type);
+  }
+
   render(){
-    console.log('play page...', this.props);
+    // console.log('play page...', this.props);
     if (!Object.keys(this.props.detail).length){
       return null;
     }
     return <div>
       <h1>播放歌曲页面</h1>
+      <h2>{this.props.detail.name}</h2>
       <div>
         <img className={this.state.isPlay?styles.picUrl:styles.disable} src={this.props.detail.al.picUrl}/>
         <div>
           <span>{this.currentTime}</span>
-          <p className={styles.progress}>
-            <span style={{width:this.state.progress+'%'}}></span>
-          </p>
+          <div className={styles.progress}
+            onTouchStart={this.touchStart.bind(this)}
+            onTouchMove={this.touchMove.bind(this)}
+            onTouchEnd={this.touchEnd.bind(this)}>
+            <p ref="progress">
+              <span style={{width:this.state.progress+'%'}}></span>
+            </p>
+          </div>
           <span>{this.duration}</span>
         </div>
 
         <div>
-          <button>上一曲</button>
+          <button onClick={()=>this.chanagePlay('prev')}>上一曲</button>
           <button onClick={this.changeState.bind(this)}>{this.state.isPlay?'暂停':'播放'}</button>
-          <button>下一曲</button>
+          <button onClick={()=>this.chanagePlay('next')}>下一曲</button>
         </div>
       </div>
       {this.props.url?<audio src={this.props.url} autoPlay ref="audio" onTimeUpdate={()=>this.timeUpdate()}></audio>:null}

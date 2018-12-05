@@ -1,9 +1,10 @@
-.picUrl,img{
+.picUrl{
   width: 50%;
   border-radius: 50%;
   animation: rotate 10s linear infinite;
 }
 .disable{
+  composes: picUrl;
   animation-play-state: paused;
 }
 @keyframes rotate{
@@ -15,11 +16,15 @@
   }
 }
 .progress{
-  position: relative;
+  padding: 8px 0;
   width: 80%;
   margin: 0 auto;
-  height: 3px;
-  background: #c0c0c0;
+  p{
+    position: relative;
+    width: 100%;
+    height: 3px;
+    background: #c0c0c0;
+  }
   span{
     position: absolute;
     left: 0;

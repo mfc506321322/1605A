@@ -5,11 +5,14 @@ export default {
   state: {
     id: 0,
     url: '',
-    info: {},
-    detail: {}
+    info: {}, // 歌曲信息
+    detail: {}, // 歌曲详情
+    current: 0, // 当前播放歌曲下标
+    playList: []  // 播放列表
   },
 
   effects: {
+    // 获取一首歌曲的播放文件和详情
     *getUrl({payload}, {call, put}){
       // 获取歌曲可播放文件
       let response = yield call(getUrl, payload);
@@ -25,6 +28,29 @@ export default {
         type: 'updateState',
         payload: obj
       })
+    },
+    // 获取一组歌曲的播放文件和详情
+    * getUrls({payload}, {call, put}){
+      console.log('getUrls payload', payload);
+       // 获取歌曲可播放文件
+      let responses = yield call(getUrl, payload.join(','));
+      // 获取歌曲详情
+      let details = yield call(getDetail, payload.join(','));
+      console.log('urls response...', responses);
+      console.log('urls detail...', details);
+      responses = responses.data.data;
+      details = details.data.songs;
+      let playList = [];
+      details.forEach(item=>{
+        playList.push({
+          detail: item,
+          info: responses.filter(value=>value.id==item.id)[0]
+        })
+      })
+      yield put({
+        type: 'updateState',
+        payload: {playList}
+      })
     }
   },
 
@@ -32,7 +58,28 @@ export default {
     updateState(state, action){
       console.log('action...', action);
       return {...state, ...action.payload}
+    },
+    changePlay(state, {payload}){
+      let newState = {...state};
+      if (payload == 'prev'){
+        if (state.current == 0){
+          newState.current = state.playList.length-1;
+        }else{
+          newState.current--;
+        }
+      }else{
+        if (state.current == state.playList.length-1){
+          newState.current = 0;
+        }else{
+          newState.current++;
+        }
+      }
+      newState.id = state.playList[newState.current].info.id;
+      newState.url = state.playList[newState.current].info.url;
+      newState.info = state.playList[newState.current].info;
+      newState.detail = state.playList[newState.current].detail;
+
+      return newState;
     }
   }
-
 }
