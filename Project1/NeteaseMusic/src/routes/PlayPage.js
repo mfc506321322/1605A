@@ -1,9 +1,13 @@
 import React from 'react';
 import {connect} from 'dva';
+import { Carousel } from 'antd-mobile';
 import styles from './PlayPage.scss';
 import {formatTime} from '../utils/index';
+import PlayHeader from '../components/play/PlayHeader';
+import Lyric from '../components/play/Lyric';
 
 @connect(({play})=>{
+  console.log('play..', play);
   return play
 }, dispatch=>{
   return {
@@ -139,10 +143,16 @@ class Play extends React.PureComponent{
       return null;
     }
     return <div>
-      <h1>播放歌曲页面</h1>
-      <h2>{this.props.detail.name}</h2>
+      {/* <Carousel
+          autoplay={false}
+          infinite
+          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+          afterChange={index => console.log('slide to', index)}
+        >{ */}
+          <PlayHeader name={this.props.detail.name} isPlay={this.state.isPlay} picUrl={this.props.detail.al.picUrl}/>
+          <Lyric lyric={this.props.lyric}/>
+        {/* }</Carousel> */}
       <div>
-        <img className={this.state.isPlay?styles.picUrl:styles.disable} src={this.props.detail.al.picUrl}/>
         <div>
           <span>{this.currentTime}</span>
           <div className={styles.progress}

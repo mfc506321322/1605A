@@ -1,10 +1,11 @@
-import {getUrl, getDetail} from '../services/index';
+import {getUrl, getDetail, getLyric} from '../services/index';
 
 export default {
   namespace: 'play',
   state: {
     id: 0,
     url: '',
+    lyric: '',
     mode: 1,  // 1表示单曲循环，2表示随机播放，3表示顺序播放
     info: {}, // 歌曲信息
     detail: {}, // 歌曲详情
@@ -19,12 +20,17 @@ export default {
       let response = yield call(getUrl, payload);
       // 获取歌曲详情
       let detail = yield call(getDetail, payload);
+      // 获取歌词
+      let lyric = yield call(getLyric, payload);
       console.log('url response...', response);
       console.log('url detail...', detail);
+      console.log('url lyric...', lyric);
+
       let obj = {info:response.data.data[0]};
       obj.id = payload;
       obj.url = response.data.data[0].url;
       obj.detail = detail.data.songs[0];
+      obj.lyric = lyric.data.lrc.lyric;
       yield put({
         type: 'updateState',
         payload: obj
