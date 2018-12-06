@@ -27,6 +27,12 @@ import Lyric from '../components/play/Lyric';
       dispatch({
         type: 'play/changeMode',
       })
+    },
+    changeLyric: payload=>{
+      dispatch({
+        type: 'play/getLyric',
+        payload
+      })
     }
   }
 })
@@ -42,6 +48,13 @@ class Play extends React.PureComponent{
   componentDidMount(){
     let id = this.props.match.params.id;
     this.props.getUrl(id);
+  }
+
+  componentWillReceiveProps(nextProps){
+    // 只要判断下一次的id和上一次的id不一样就要重新获取歌词
+    if (nextProps.id != this.props.id){
+      this.props.changeLyric(nextProps.id);
+    }
   }
 
   // 播放进度更新触发的钩子
@@ -150,7 +163,7 @@ class Play extends React.PureComponent{
           afterChange={index => console.log('slide to', index)}
         >{ */}
           <PlayHeader name={this.props.detail.name} isPlay={this.state.isPlay} picUrl={this.props.detail.al.picUrl}/>
-          <Lyric lyric={this.props.lyric}/>
+          <Lyric lyric={this.props.lyric} currentTime={this.refs.audio && this.refs.audio.currentTime}/>
         {/* }</Carousel> */}
       <div>
         <div>

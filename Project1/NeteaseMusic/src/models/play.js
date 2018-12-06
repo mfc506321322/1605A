@@ -6,11 +6,11 @@ export default {
     id: 0,
     url: '',
     lyric: '',
-    mode: 1,  // 1表示单曲循环，2表示随机播放，3表示顺序播放
+    mode: 2,  // 1表示单曲循环，2表示随机播放，3表示顺序播放
     info: {}, // 歌曲信息
     detail: {}, // 歌曲详情
     current: 0, // 当前播放歌曲下标
-    playList: []  // 播放列表
+    playList: JSON.parse(window.localStorage.getItem('playList'))||[]  // 播放列表
   },
 
   effects: {
@@ -20,20 +20,29 @@ export default {
       let response = yield call(getUrl, payload);
       // 获取歌曲详情
       let detail = yield call(getDetail, payload);
-      // 获取歌词
-      let lyric = yield call(getLyric, payload);
+
       console.log('url response...', response);
       console.log('url detail...', detail);
-      console.log('url lyric...', lyric);
+      // console.log('url lyric...', lyric);
 
       let obj = {info:response.data.data[0]};
       obj.id = payload;
       obj.url = response.data.data[0].url;
       obj.detail = detail.data.songs[0];
-      obj.lyric = lyric.data.lrc.lyric;
       yield put({
         type: 'updateState',
         payload: obj
+      })
+    },
+    // 获取歌曲的歌词
+    * getLyric({payload}, {call, put}){
+      // 获取歌词
+      let lyric = yield call(getLyric, payload);
+      yield put({
+        type: 'updateState',
+        payload: {
+          lyric: lyric.data.lrc.lyric
+        }
       })
     },
     // 获取一组歌曲的播放文件和详情
@@ -54,6 +63,7 @@ export default {
           info: responses.filter(value=>value.id==item.id)[0]
         })
       })
+      window.localStorage.setItem('playList', JSON.stringify(playList));
       yield put({
         type: 'updateState',
         payload: {playList}
