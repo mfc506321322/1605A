@@ -3,8 +3,12 @@ import {connect} from 'dva';
 import { Carousel } from 'antd-mobile';
 import styles from './PlayPage.scss';
 import {formatTime} from '../utils/index';
+// 音乐封面
 import PlayHeader from '../components/play/PlayHeader';
+// 音乐歌词
 import Lyric from '../components/play/Lyric';
+// 音乐音波
+import AudioProcess from '../components/play/AudioProcess';
 
 @connect(({play})=>{
   console.log('play..', play);
@@ -156,15 +160,16 @@ class Play extends React.PureComponent{
       return null;
     }
     return <div>
-      {/* <Carousel
+      <Carousel
           autoplay={false}
           infinite
           beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
           afterChange={index => console.log('slide to', index)}
-        >{ */}
+        >
           <PlayHeader name={this.props.detail.name} isPlay={this.state.isPlay} picUrl={this.props.detail.al.picUrl}/>
           <Lyric lyric={this.props.lyric} currentTime={this.refs.audio && this.refs.audio.currentTime}/>
-        {/* }</Carousel> */}
+          <AudioProcess audio={this.refs.audio}/>
+        </Carousel>
       <div>
         <div>
           <span>{this.currentTime}</span>
@@ -186,7 +191,7 @@ class Play extends React.PureComponent{
           <button onClick={()=>this.chanagePlay('next')}>下一曲</button>
         </div>
       </div>
-      {this.props.url?<audio src={this.props.url} autoPlay ref="audio" onTimeUpdate={()=>this.timeUpdate()}></audio>:null}
+      {this.props.url?<audio crossOrigin="anonymous" src={this.props.url} autoPlay ref="audio" onTimeUpdate={()=>this.timeUpdate()}></audio>:null}
       <ul>{
         this.props.playList.map((item, index)=>{
           return <li className={styles.item} key={index}>

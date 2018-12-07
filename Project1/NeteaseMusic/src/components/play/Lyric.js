@@ -67,7 +67,7 @@ class Lyric extends React.PureComponent{
     if (nextProps.lyric != this.props.lyric){
       this.initLryic(nextProps.lyric);
     }
-    console.log('props...', nextProps);
+    // console.log('props...', nextProps);
     for (let i=0,len=this.state.times.length; i<len; i++){
       if (nextProps.currentTime < this.state.times[i]){
         if (i-1 !== this.state.current){
