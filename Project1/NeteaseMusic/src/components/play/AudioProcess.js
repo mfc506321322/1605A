@@ -57,12 +57,6 @@ class AudioProcess extends React.Component{
                 g.lineTo(i,height/2*output[output.length*i/width|0]);
             g.stroke();
         }
-        // if (isZero > 400){
-        //     console.log('高分贝')
-        // }else{
-        //     console.log('低分贝');
-        // }
-        // console.log('isZero...', isZero);
     };
   }
 
