@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
 import styles from './Search.scss';
+// 引入context
+import DataContext from '../../context/index';
 
 @connect(({discover})=>{
   let {songs, songCount} = discover;
@@ -65,6 +67,14 @@ class Search extends React.PureComponent{
           </Link>
         })
       }</ul>
+        <DataContext.Consumer>{
+          // ({data, changeData})=><div>
+          //   <button onClick={()=>changeData('歌曲面板触发了事件')}>触发事件</button>
+          //   <p>{data.name}</p>
+          //   <p>{data.num}</p>
+          // </div>
+          context=><div>{JSON.stringify(context)}</div>
+        }</DataContext.Consumer>
     </div>
   }
 }
