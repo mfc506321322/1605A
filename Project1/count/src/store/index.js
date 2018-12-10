@@ -8,7 +8,7 @@ const index  = new Index();
 
 // 追踪数据变化
 autorun(() => {
-    console.log(count.count);
+    console.log('count触发了改变....', count.count);
 });
 
 export default {

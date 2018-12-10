@@ -8,9 +8,9 @@ export default class Count{
         this.count = 1000;
     }
 
-    @action changeCount(type){
-        type=='+'? this.count++: this.count--;
-    }
+    // @action changeCount(type){
+    //     type=='+'? this.count++: this.count--;
+    // }
 
     @action autoAdd() {
         return new Promise((resolve, reject)=>{

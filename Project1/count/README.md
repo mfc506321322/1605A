@@ -42,3 +42,18 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## 需要下载三个包
+- "babel-plugin-transform-decorators-legacy": "^1.3.5",	支持装饰器
+- "mobx": "^5.7.0",		支持mobx
+- "mobx-react": "^5.4.2"	支持合react集成
+
+## 配置babel
+	"babel": {
+	    "presets": [
+	      "react-app"
+	    ], 
+	    "plugins": [
+	      ["@babel/plugin-proposal-decorators", { "legacy": true }]
+	    ]
+	  }
