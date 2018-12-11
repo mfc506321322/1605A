@@ -10,3 +10,17 @@ export function toSec(time){
   let arr = time.split(':');
   return (arr[0]*60+arr[1]*1).toFixed(2);
 }
+
+// 数组打乱
+export function randomArr(arr){
+  let newArr = [];
+  while(true){
+    let index = Math.floor(Math.random()*arr.length);
+    if (newArr.indexOf(arr[index]) == -1){
+      newArr.push(arr[index]);
+      if (newArr.length == arr.length){
+        return newArr
+      }
+    }
+  }
+}

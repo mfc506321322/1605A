@@ -16,6 +16,5 @@ export default props=>{
       // </div>
       context=><div>{JSON.stringify(context)}</div>
     }</DataContext.Consumer>
-    <img className={props.isPlay?styles.picUrl:styles.disable} src={props.picUrl}/>
   </React.Fragment>
 }

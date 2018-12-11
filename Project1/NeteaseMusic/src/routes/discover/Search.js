@@ -24,6 +24,12 @@ import DataContext from '../../context/index';
         type: 'play/getUrls',
         payload
       })
+    },
+    distinguishSong: payload=>{
+      dispatch({
+        type: 'play/distinguishSong',
+        payload
+      })
     }
   }
 })
@@ -50,13 +56,21 @@ class Search extends React.PureComponent{
     this.props.history.push(`/play/${this.props.songs[0].id}`);
   }
 
+  // 听歌识曲
+  distinguishSong(){
+    console.log('distin...', this.props);
+    this.props.distinguishSong(this.props.songs.map(item=>item.id));
+  }
+
+
   render(){
     console.log(this.props);
     let {songs} = this.props;
     return <div>
-      <input placeholder="要搜索的歌曲" ref="search"></input>
+      <input placeholder="要搜索的歌曲" ref="search"/>
       <button onClick={this.search.bind(this)}>搜索</button>
       <button onClick={this.playAll.bind(this)}>播放全部</button>
+      <button onClick={this.distinguishSong.bind(this)}>听歌识曲</button>
       <ul>{
         songs.map((item, index)=>{
           return <Link to={`/play/${item.id}`} key={index}>

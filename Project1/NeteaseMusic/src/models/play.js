@@ -1,3 +1,4 @@
+import { routerRedux } from 'dva/router';
 import {getUrl, getDetail, getLyric} from '../services/index';
 
 export default {
@@ -10,7 +11,8 @@ export default {
     info: {}, // 歌曲信息
     detail: {}, // 歌曲详情
     current: 0, // 当前播放歌曲下标
-    playList: JSON.parse(window.localStorage.getItem('playList'))||[]  // 播放列表
+    playList: JSON.parse(window.localStorage.getItem('playList'))||[],  // 播放列表
+    distiguishList: JSON.parse(window.localStorage.getItem('distiguishList'))||[], // 听歌识曲列表
   },
 
   effects: {
@@ -68,6 +70,48 @@ export default {
         type: 'updateState',
         payload: {playList}
       })
+    },
+    // 从播放列表中选取十首歌
+    * distinguishSong({payload}, {call, put}){
+      console.log('payload...', payload);
+      // 随机选取十首歌
+      let songList = [], ids = [];
+      while(true){
+        let id = Math.floor(Math.random()*payload.length);
+        if (ids.indexOf(payload[id]) == -1){
+          ids.push(payload[id]);
+          if (ids.length == 10){
+            break;
+          }
+        }
+      }
+      console.log('ids...', ids);
+      // 获取歌曲可播放文件
+      let responses = yield call(getUrl, ids.join(','));
+      // 获取歌曲详情
+      let details = yield call(getDetail, ids.join(','));
+      console.log('urls response...', responses);
+      console.log('urls detail...', details);
+      responses = responses.data.data;
+      details = details.data.songs;
+      details.forEach(item=>{
+        songList.push({
+          name: item,
+          url: responses.filter(value=>value.id==item.id)[0].url
+        })
+      })
+
+      console.log('songList...', songList);
+      yield put({
+        type: 'updateState',
+        payload: {
+          distiguishList: songList
+        }
+      })
+      window.localStorage.setItem('distiguishList', JSON.stringify(songList));
+      yield put(routerRedux.push({
+        pathname: `/distinguish`,
+      }))
     }
   },
 

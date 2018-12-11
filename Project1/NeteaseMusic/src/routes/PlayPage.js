@@ -54,11 +54,27 @@ class Play extends React.PureComponent{
     this.props.getUrl(id);
   }
 
-  componentWillReceiveProps(nextProps){
+  // 静态方法，在props改变时触发，返回值是从props中派生的数据
+  static getDerivedStateFromProps(props, state){
     // 只要判断下一次的id和上一次的id不一样就要重新获取歌词
-    if (nextProps.id != this.props.id){
-      this.props.changeLyric(nextProps.id);
+    if (props.id != state.id && props.id){
+      props.changeLyric(props.id);
     }
+    return {
+      id: props.id
+    }
+  }
+
+  // 更新前的快照，返回结果做为componentDidUpdate的第三个参数
+  getSnapshotBeforeUpdate(props, state){
+    // console.log('snap props...',props, 'snap state...', state);
+    return {
+      time: +new Date()
+    }
+  }
+
+  componentDidUpdate(props, state, snap){
+    // console.log('did props...',props, 'did state...', state, 'dis snap...', snap);
   }
 
   // 播放进度更新触发的钩子
@@ -155,7 +171,7 @@ class Play extends React.PureComponent{
   }
 
   render(){
-    // console.log('play page...', this.props);
+    // console.log('play page state...', this.state);
     if (!Object.keys(this.props.detail).length){
       return null;
     }

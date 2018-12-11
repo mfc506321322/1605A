@@ -5,6 +5,7 @@ import dynamic from 'dva/dynamic';
 import LoginPage from '../routes/LoginPage';
 import MainPage from '../routes/MainPage';
 import PlayPage from '../routes/PlayPage';
+import DistinguishPage from '../routes/DistinguishPage'
 
 // 引入二级路由
 import AccountPage from '../routes/account/Index';
@@ -24,6 +25,9 @@ export default {
   }, {
     path: '/play/:id?',
     component: PlayPage
+  }, {
+    path: '/distinguish/:id?',
+    component: DistinguishPage
   }, {
     path: '/main',
     component: MainPage,
