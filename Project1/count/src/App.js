@@ -9,7 +9,7 @@ class App extends Component {
   changeCount(type){
     // this.props.count.changeCount(type);
     this.props.count.autoAdd().then(res=>{
-      console.log('数据更新完成');
+      console.log('data updata over');
     })
   }
 
