@@ -130,6 +130,7 @@ class Distinguish extends React.PureComponent{
   render(){
     // console.log('this.state....', this.state);
     return <React.Fragment>
+      <img src="assets/audio.png"/>
       <h2>猜歌名</h2>
       <ul onClick={this.answer.bind(this)}>{this.state.answerList.map((item, index)=>{
         return <button className={styles.answer} key={index}>{item}</button>
