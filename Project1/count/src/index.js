@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-// 获取store
+// get store
 import { Provider } from 'mobx-react';
 import stores from './store';
 
