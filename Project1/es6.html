@@ -271,6 +271,7 @@
                     resolve(img);
                     reject(new Error());
                 }
+                
                 img.onerror = ()=>{
                     reject(new Error());
                 }
