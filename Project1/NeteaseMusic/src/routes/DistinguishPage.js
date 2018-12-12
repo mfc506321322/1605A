@@ -30,7 +30,7 @@ class Distinguish extends React.PureComponent{
 
   static getDerivedStateFromProps(props, state){
     return {
-      rightAnser: props.distiguishList.map(item=>item.name.name)
+      rightAnser: props.distiguishList.map(item=>item.name.name+' --- '+item.name.al.name)
     }
   }
 
@@ -47,11 +47,12 @@ class Distinguish extends React.PureComponent{
   // 歌曲加载完，开始播放
   startPlay(){
     console.log('e...开始播放', this.refs.audio.duration);
-    let start = Math.floor(Math.random()*(this.refs.audio.duration-10));
+    let start = Math.floor(Math.random()*(this.refs.audio.duration-20));
+    this.randomAnswer();
     this.setState({
       tempTime: {
         start,
-        end: start+10
+        end: start+20
       }
     }, ()=>{
       // 把按钮的clss去掉
@@ -82,7 +83,7 @@ class Distinguish extends React.PureComponent{
     }
     // 算一下进度
     this.setState({
-      progress: Math.floor((this.refs.audio.currentTime - this.state.tempTime.start)/10*100)
+      progress: Math.floor((this.refs.audio.currentTime - this.state.tempTime.start)/20*100)
     })
   }
 
@@ -130,8 +131,8 @@ class Distinguish extends React.PureComponent{
     // console.log('this.state....', this.state);
     return <React.Fragment>
       <h2>猜歌名</h2>
-      <ul onClick={this.answer.bind(this)}>{this.state.answerList.map((item)=>{
-        return <button className={styles.answer} key={item}>{item}</button>
+      <ul onClick={this.answer.bind(this)}>{this.state.answerList.map((item, index)=>{
+        return <button className={styles.answer} key={index}>{item}</button>
       })}</ul>
       {/* 进度条 */}
       <div>
@@ -141,7 +142,7 @@ class Distinguish extends React.PureComponent{
             <span style={{width:this.state.progress+'%'}}></span>
           </p>
         </div>
-        <span>00.10</span>
+        <span>00.20</span>
       </div>
       <button onClick={this.play.bind(this)}>{this.state.isPlay?'暂停':'播放'}</button>
       <span>{`${this.state.current+1}/10`}</span>

@@ -13,14 +13,8 @@ export function toSec(time){
 
 // 数组打乱
 export function randomArr(arr){
-  let newArr = [];
-  while(true){
-    let index = Math.floor(Math.random()*arr.length);
-    if (newArr.indexOf(arr[index]) == -1){
-      newArr.push(arr[index]);
-      if (newArr.length == arr.length){
-        return newArr
-      }
-    }
-  }
+  let newArr = [...arr];
+  newArr.sort((a,b)=>Math.random()>.5?-1: 1);
+  console.log('arr...', arr, 'newArrr...', newArr);
+  return newArr;
 }
