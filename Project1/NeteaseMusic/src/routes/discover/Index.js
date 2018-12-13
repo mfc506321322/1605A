@@ -18,6 +18,11 @@ class Index extends React.PureComponent{
   componentDidMount(){
     this.props.getBanner();
   }
+  click(){
+    // console.log('_htm', window._hmt);
+    window._hmt.push(['_trackEvent', '网易云音乐', '按钮点击', '搜索按钮']);
+  }
+
   render(){
     console.log('props..', this.props);
     let {banners} = this.props;
@@ -39,7 +44,8 @@ class Index extends React.PureComponent{
           }}>每日推荐</NavLink>
           <NavLink to={{
             pathname: '/main/search'
-          }} replace>搜索</NavLink>
+          }} onClick={()=>this.click()}>搜索</NavLink>
+          <button onClick={()=>this.click()}>搜索</button>
         </section>
      </div>
   }

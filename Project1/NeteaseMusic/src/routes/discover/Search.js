@@ -81,14 +81,14 @@ class Search extends React.PureComponent{
           </Link>
         })
       }</ul>
-        <DataContext.Consumer>{
+        {/* <DataContext.Consumer>{
           // ({data, changeData})=><div>
           //   <button onClick={()=>changeData('歌曲面板触发了事件')}>触发事件</button>
           //   <p>{data.name}</p>
           //   <p>{data.num}</p>
           // </div>
           context=><div>{JSON.stringify(context)}</div>
-        }</DataContext.Consumer>
+        }</DataContext.Consumer> */}
     </div>
   }
 }

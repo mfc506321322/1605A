@@ -25,9 +25,6 @@
   }
   a span{
     font-size: .3rem;
-    color: #2d2d2d;
-  }
-  a.active span{
     color: #c0c0c0;
   }
   a:first-child{
@@ -35,19 +32,9 @@
       background: url('../assets/discover.png') no-repeat 0 0/100%;
     }
   }
-  a:first-child,.active{
-    p{
-      background: url('../assets/discover_active.png') no-repeat 0 0/100%;
-    }
-  }
   a:nth-child(2){
     p{
       background: url('../assets/video.png') no-repeat 0 0/100%;
-    }
-  }
-  a:nth-child(2),.active{
-    p{
-      background: url('../assets/video_active.png') no-repeat 0 0/100%;
     }
   }
   a:nth-child(3){
@@ -55,19 +42,9 @@
       background: url('../assets/my.png') no-repeat 0 0/100%;
     }
   }
-  a:nth-child(3),.active{
-    p{
-      background: url('../assets/my_active.png') no-repeat 0 0/100%;
-    }
-  }
   a:nth-child(4){
     p{
       background: url('../assets/friend.png') no-repeat 0 0/100%;
-    }
-  }
-  a:nth-child(4),.active{
-    p{
-      background: url('../assets/friend_active.png') no-repeat 0 0/100%;
     }
   }
   a:last-child{
@@ -75,9 +52,36 @@
       background: url('../assets/account.png') no-repeat 0 0/100%;
     }
   }
-  a:last-child,.active{
-    p{
-      background: url('../assets/account_active.png') no-repeat 0 0/100%;
+}
+:global{
+  footer{
+    a.active span{
+      color: #2d2d2d;
+    }
+    a.active:first-child{
+      p{
+        background: url('../assets/discover_active.png') no-repeat 0 0/100%;
+      }
+    }
+    a.active:nth-child(2){
+      p{
+        background: url('../assets/video_active.png') no-repeat 0 0/100%;
+      }
+    }
+    a.active:nth-child(3){
+      p{
+        background: url('../assets/my_active.png') no-repeat 0 0/100%;
+      }
+    }
+    a.active:nth-child(4){
+      p{
+        background: url('../assets/friend_active.png') no-repeat 0 0/100%;
+      }
+    }
+    a.active:nth-child(5){
+      p{
+        background: url('../assets/account_active.png') no-repeat 0 0/100%;
+      }
     }
   }
 }
