@@ -184,7 +184,7 @@ class Play extends React.PureComponent{
         >
           <PlayHeader name={this.props.detail.name} isPlay={this.state.isPlay} picUrl={this.props.detail.al.picUrl}/>
           <Lyric lyric={this.props.lyric} currentTime={this.refs.audio && this.refs.audio.currentTime}/>
-          <AudioProcess audio={this.refs.audio}/>
+          {/* <AudioProcess audio={this.refs.audio}/> */}
         </Carousel>
       <div>
         <div>
