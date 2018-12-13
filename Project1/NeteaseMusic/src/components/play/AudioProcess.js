@@ -23,7 +23,7 @@ class AudioProcess extends React.Component{
 
   drawLine(audio){
     var canvas = this.refs.canvas;
-    // var AudioContext = AudioContext || webkitAudioContext;
+    var AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;;
     var context = new AudioContext;
     //从元素创建媒体节点
     var media=context.createMediaElementSource(audio);
