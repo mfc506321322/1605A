@@ -5,6 +5,14 @@ import './styles/common.css';
 // import createHistory from 'history/createBrowserHistory';
 import createHistory from 'history/createHashHistory';
 
+// require方式
+let data = require('../public/data.json');
+console.log('data...', data);
+
+// fetch方式
+fetch('/data.json').then(res=>res.json())
+.then(body=>console.log('body...', body));
+
 // 解决移动端300ms延迟和点击穿透问题
 var FastClick = require('fastclick');
 FastClick.attach(document.body);
