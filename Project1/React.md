@@ -1,0 +1,12 @@
+## 经典必会问题
+- 什么是MVVM？React与Vue的区别与联系？
+- JSX语法、Virtual DOM与DOM Diff算法？
+- 详细介绍生命周期(三个阶段，生命周期的触发顺序)？
+- 合成事件与改变this指向的三种方式及之间的区别？
+- 样式绑定与CSS Modules
+- 多种组件创建方式及其区别？什么是受控组件？
+- 高阶组件与装饰器
+- 组件通信的多种方式及其之间的区别
+- React Router及其简单实现原理
+- Redux数据流向及三个中间件（redux-logger、redux-thunk、redux-saga）
+- Ant Design && so on
