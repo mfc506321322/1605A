@@ -211,3 +211,6 @@ ReactDOM.render(
     <Register />, 
     document.getElementById('root')
 );
+
+
+console.log('register.....');
