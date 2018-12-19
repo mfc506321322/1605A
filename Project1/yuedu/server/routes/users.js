@@ -1,6 +1,7 @@
 var express = require('express');
 var query = require('../db.js');
 var router = express.Router();
+var {geneToken} = require('../utils/index');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -24,34 +25,34 @@ router.post('/login', function(req, res, next) {
     } else{
       var token = geneToken(results[0].id);
       query('insert into token set ?', {uid: results[0].id, token, create_time: +new Date()}, (error, result, fields)=>{
-        let uid = results[0].id;
-        query('select rolername from roler,user_roler where roler.id=user_roler.rid and user_roler.uid=? and user_roler.status=1', [uid], (error, results, fields)=>{
-          if (error){
-            res.json({
-              code: -1,
-              msg: error.sqlMessage
-            })
-          }
-          let roles = results.map(item=>item.rolername);
-          if (!roles.length){
-            roles = ['staff'];
-          }
-          res.json({
-            code: 1,
-            data: {
-              auths: roles,
-              token
-            },
-            msg: '用户权限获取成功'
-          })
-          // console.log('error...', error, results);
-        })
-
-        // res.json({
-        //   code: 1,
-        //   data: {token},
-        //   msg: '登陆成功'
+        // let uid = results[0].id;
+        // query('select rolername from roler,user_roler where roler.id=user_roler.rid and user_roler.uid=? and user_roler.status=1', [uid], (error, results, fields)=>{
+        //   if (error){
+        //     res.json({
+        //       code: -1,
+        //       msg: error.sqlMessage
+        //     })
+        //   }
+        //   let roles = results.map(item=>item.rolername);
+        //   if (!roles.length){
+        //     roles = ['staff'];
+        //   }
+        //   res.json({
+        //     code: 1,
+        //     data: {
+        //       auths: roles,
+        //       token
+        //     },
+        //     msg: '用户权限获取成功'
+        //   })
+        //   // console.log('error...', error, results);
         // })
+
+        res.json({
+          code: 1,
+          data: {token},
+          msg: '登陆成功'
+        })
         // console.log('results...', error, result);
       })
 
@@ -83,22 +84,22 @@ router.post('/register', function(req, res, next){
         create_time: +new Date()}, (error, result, fields)=>{
           console.log('result...', result, error);
           if (result.insertId){
-            // var token = geneToken(result.insertId);
-            // query('insert into token set ?', {uid: result.insertId, token, create_time: +new Date()}, (error, result, fields)=>{
-            //   if (error){
-            //     res.json({
-            //       code: -4,
-            //       msg: error.sqlMessage
-            //     })
-            //   }else{
+            var token = geneToken(result.insertId);
+            query('insert into token set ?', {uid: result.insertId, token, create_time: +new Date()}, (error, result, fields)=>{
+              if (error){
+                res.json({
+                  code: -4,
+                  msg: error.sqlMessage
+                })
+              }else{
                 res.json({
                   code: 1,
-                  // data: {token},
+                  data: {token},
                   msg: '注册成功'
                 })
-              // }
-              // console.log('results...', error, result);
-            // })
+              }
+              console.log('results...', error, result);
+            })
           }else{
             res.json({
               code: -3,
@@ -107,8 +108,6 @@ router.post('/register', function(req, res, next){
           }
         console.log('results...', error, result);
       })
-
-
     }
     // console.log('results...', error, results, req.body);
   })

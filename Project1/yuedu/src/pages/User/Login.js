@@ -88,11 +88,6 @@ class LoginPage extends Component {
                 {
                   required: true,
                   message: formatMessage({ id: 'validation.userName.required' }),
-                },
-                {
-                  type: 'enum',
-                  enum: ['admin', 'role', 'guest'],
-                  message: '用户名不能低于6位'
                 }
               ]}
             />

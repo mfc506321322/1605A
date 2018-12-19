@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
+import Cookie from 'js-cookie';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -180,4 +181,15 @@ export function formatWan(val) {
 // 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
+}
+
+
+// 设置token, 过期时间为10秒
+export function setToken(value){
+  Cookie.set('token', value, {expires: new Date(+new Date()+10*1000)})
+}
+
+// 获取token
+export function getToken(){
+  return Cookies.get('token');
 }
