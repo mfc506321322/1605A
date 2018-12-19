@@ -186,10 +186,10 @@ export function isAntdPro() {
 
 // 设置token, 过期时间为10秒
 export function setToken(value){
-  Cookie.set('token', value, {expires: new Date(+new Date()+10*1000)})
+  Cookie.set('token', value, {expires: new Date(+new Date()+7*24*60*60*1000)})
 }
 
 // 获取token
 export function getToken(){
-  return Cookies.get('token');
+  return Cookie.get('token');
 }

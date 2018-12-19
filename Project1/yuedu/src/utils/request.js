@@ -2,7 +2,7 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
-import { isAntdPro } from './utils';
+import { isAntdPro,getToken } from './utils';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -118,6 +118,17 @@ export default function request(url, option) {
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
+
+  if (getToken('auth')){
+    if (newOptions.headers){
+      newOptions.headers['X-Token'] = getToken('auth');
+    }else{
+      newOptions.headers = {
+        'X-Token': getToken('auth')
+      };
+    }
+  }
+  console.log('newOptions....', newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))

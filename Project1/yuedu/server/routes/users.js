@@ -1,7 +1,7 @@
 var express = require('express');
 var query = require('../db.js');
 var router = express.Router();
-var {geneToken} = require('../utils/index');
+var {geneToken, getIdFromToken} = require('../utils/index');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -112,5 +112,35 @@ router.post('/register', function(req, res, next){
     // console.log('results...', error, results, req.body);
   })
 });
+
+// 获取用户信息
+router.get('/currentUser', (req, res)=>{
+  let token =  req.header('X-Token');
+  var uid = getIdFromToken(token);
+  console.log('token...', token);
+  query('select * from user where id = ?', [uid], (error, result, fields)=>{
+    if (error){
+      res.json({
+        code: -1,
+        msg: error.sqlMessage
+      })
+    }else{
+      if(result && result.length){
+        delete result[0].password;
+        res.json({
+          code: 1,
+          data: result[0],
+          msg: '获取用户信息成功'
+        })
+      }else{
+        res.json({
+          code: -2,
+          msg: '该用户不存在'
+        })
+      }
+    }
+    console.log('results...', error, result);
+  })
+})
 
 module.exports = router;
