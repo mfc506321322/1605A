@@ -8,7 +8,7 @@ if (env !== 'production'){
   config = {
     host: '127.0.0.1',
     user: 'root',
-    password: '',
+    password: '1601n',
     database: '1605a',
     port: 3306
   };
@@ -17,7 +17,7 @@ if (env !== 'production'){
     host: '123.206.55.50',
     user: 'root',
     password: '1601n',
-    database: '1605a',
+    database: 'yuedu',
     port: 3306
   };
 }

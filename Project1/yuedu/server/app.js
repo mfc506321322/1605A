@@ -54,6 +54,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  res.json({
+    code: -999,
+    msg: '请求的接口不存在'
+  })
+});
+
 app.listen(15000, ()=>{
   console.log('正在监听15000端口...');
 });
