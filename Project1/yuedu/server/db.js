@@ -21,7 +21,14 @@ if (env == 'development'){
   };
 }
 console.log('config...', config);
-const pool = mysql.createPool(config);
+// const pool = mysql.createPool(config);
+var pool = mysql.createPool({
+  host: '123.206.55.50',
+  user: 'root',
+  password: '1601n',
+  database: 'yuedu',
+  port: 3306
+});
 
 // 连接公用方法
 var query=function(sql,options,callback){
