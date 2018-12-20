@@ -1,14 +1,13 @@
 var mysql=require("mysql");
 
-// console.log('process...', JSON.stringify(process.env.ENV));
 let env = process.env.ENV;
 // 创建连接池
 var config = {};
-if (env !== 'production'){
+if (env == 'development'){
   config = {
     host: '127.0.0.1',
     user: 'root',
-    password: '1601n',
+    password: '',
     database: '1605a',
     port: 3306
   };
@@ -21,6 +20,7 @@ if (env !== 'production'){
     port: 3306
   };
 }
+console.log('config...', config);
 const pool = mysql.createPool(config);
 
 // 连接公用方法
