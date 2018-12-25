@@ -143,4 +143,32 @@ router.get('/currentUser', (req, res)=>{
   })
 })
 
+// 更新用户信息
+router.post('/update', function(req, res, next){
+  let uid = getIdFromToken(req.header('X-Token'));
+  req.body.username = req.body.name;
+  delete req.body.name;
+  query('update user set ? where id=?', [req.body, uid], function(error, results, fields){
+    console.log('results...', error, req.body);
+    if (error){
+      res.json({
+        code: -1,
+        msg: error.sqlMessage
+      })
+    }
+    if (results.affectedRows){
+      res.json({
+        code: 1,
+        data: {},
+        msg: '修改用户信息成功'
+      })
+    }else{
+      res.json({
+        code: -2,
+        msg: '修改用户信息失败'
+      })
+    }
+  })
+})
+
 module.exports = router;
