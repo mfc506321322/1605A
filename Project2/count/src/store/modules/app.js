@@ -18,7 +18,7 @@ const mutations = {
   changeNum(state, action){
     console.log('state...', state, 'action...', action);
     // setTimeout(()=>{
-      state.num = action.payload=='+'?state.num+1: state.num-1;
+      state.num = action=='+'?state.num+1: state.num-1;
     // }, 100);
   }
 }
