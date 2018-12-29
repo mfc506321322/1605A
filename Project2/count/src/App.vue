@@ -28,16 +28,16 @@ export default {
       changeNumAsync: 'app/changeNumAsync'
     }),
     changeNum(type){
-      // this.$store.commit('changeNum', {payload: type});
+      // this.$store.commit('app/changeNum', type);
       // 提交一个mutation
       // this.$store.commit({
       //   type: 'app/changeNum',
-      //   payload: type
+      //   type
       // })
       // 提交一个commit
-      this.changeNumAsync(type).then(res=>{
-        console.log('异步操作完成了!!!!');
-      })
+      // this.changeNumAsync(type).then(res=>{
+      //   console.log('异步操作完成了!!!!');
+      // })
     }
   },
 }
