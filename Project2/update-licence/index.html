@@ -27,6 +27,8 @@
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>
       eruda.init();
+      //禁用客户端右上角的功能按钮
+      window['CHELUN_SHOW_MENU_ITEMS'] = ['menu:refresh', 'menu:share:wxMessage', 'menu:share:wxTimeline'];
     </script>
     <style>
       body{

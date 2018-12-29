@@ -3,7 +3,7 @@
 </template>
 
 <script>
-const JSBridge = require('./utils/JSBridge.js');
+import JSBridge from './utils/JSBridge.js';
 export default {
   name: 'app',
   data () {
@@ -13,10 +13,13 @@ export default {
   methods: {
     login(){
       //登录
-      chelunJSBridge.invoke('app', 'login', {
+      JSBridge.invoke('app', 'login1000000000', {
         loginCallBackName: res=>{
           console.log('res...', res);
-        }
+        },
+        a: 1,
+        b: 2,
+        c: 3
       });
     }
   }
