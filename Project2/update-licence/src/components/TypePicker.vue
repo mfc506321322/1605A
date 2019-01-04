@@ -15,9 +15,11 @@ export default {
     name: 'TypePicker',
     data(){
         return {
-            showType: false,
+         
+   showType: false,
             typeArray: ["补驾照", "换驾照"],
-            type: ''
+         
+   type: ''
         }
     },
     methods: {
@@ -32,6 +34,11 @@ export default {
         clickType(){
             this.showType = true;
         }
+
+
+
+
+
     }
 }
 </script>
