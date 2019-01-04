@@ -4,6 +4,8 @@
     <Upload/>
     <TypePicker/>
     <CityPicker/>
+    <router-link to="/faq">常见问题?</router-link>
+    <button @click="pay">立即支付</button>
   </div>
 </template>
 
@@ -11,6 +13,7 @@
 import Upload from '@/components/Upload'
 import TypePicker from '@/components/TypePicker'
 import CityPicker from '@/components/CityPicker'
+import {doPay} from '@/api/index'
 
 export default {
   data(){
@@ -26,7 +29,9 @@ export default {
     CityPicker
   },
   methods: {
-
+    pay(){
+      doPay();
+    }
   }
 }
 </script>

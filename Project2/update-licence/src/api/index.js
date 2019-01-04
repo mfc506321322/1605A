@@ -1,5 +1,6 @@
 // const host = /localhost/.test(window.location.host)?'https://h5.chelun.com':'http://h5-test.chelun.com';
 import JSBridge from '@/utils/JSBridge.js';
+import pay from '@/utils/pay.js';
 
 function sendRequest(url, method = 'GET', data = {}) {
     let params = {
@@ -23,6 +24,32 @@ function sendRequest(url, method = 'GET', data = {}) {
 }
 
 
+// 唤起登陆
+export let doLogin = ()=>{
+  JSBridge.invoke('app', 'login', {
+    loginCallBackName: res=>window.location.reload()
+  });
+}
+
+// 唤起支付
+export let doPay = ()=>{
+  // pay.init({
+  //   order_url: /h5.chelun.com/.test(window.location.host) ? "//payproxy.eclicks.cn/Order/Create" : "//payproxy-test.eclicks.cn/Order/Create",
+  //   order_param: {
+  //     order_type: 50,
+  //     order_number: 'B7GT6NMV9JZPY',
+  //     ac_token: 'u29160213_369865473_SRMO7aws0w6rVeWt'
+  //   },
+  //   pay_channel: 'app',
+  //   callback_url:  "https://h5.chelun.com/2017/update-licence2/order.html"
+  // })
+  JSBridge.invoke('app', 'pay', {
+    price: 398.00,
+    orderNum: '6486849305969374209',
+    channels: ["weixin","alipay","baidu"],
+    callbackUrl: "https://h5.chelun.com/2017/update-licence2/order.html"
+  });
+}
 // 上传图片
 export let uploadImg = (type)=>{
   return new Promise((resolve, reject)=>{
