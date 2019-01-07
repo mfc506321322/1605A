@@ -1,43 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>update-licence</title>
-    <script>
-      // 计算rem
-      var fun = function (doc, win) {
-        var docEl = doc.documentElement,
-            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-            recalc = function () {
-                var clientWidth = docEl.clientWidth;
-                if (!clientWidth) return;
 
-                //这里是假设在750px宽度设计稿的情况下，1rem = 100px；
-                //可以根据实际需要修改
-                docEl.style.fontSize =  (clientWidth / 750)*100 + 'px';
-            };
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>update-licence</title>
+  <script>
+    // 计算rem
+    var fun = function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+
+          //这里是假设在750px宽度设计稿的情况下，1rem = 100px；
+          //可以根据实际需要修改
+          docEl.style.fontSize = (clientWidth / 750) * 100 + 'px';
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    }
+    fun(document, window);
+
+  </script>
+  <!-- 引入移动端调试工具 -->
+  <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    (function (a, h, c, b, f, g) {
+      a["UdeskApiObject"] = f;
+      a[f] = a[f] || function () {
+        (a[f].d = a[f].d || []).push(arguments)
+      };
+      g = h.createElement(c);
+      g.async = 1;
+      g.src = b;
+      c = h.getElementsByTagName(c)[0];
+      c.parentNode.insertBefore(g, c)
+    })(window, document, "script", "//weizhang.udesk.cn/im_client/js/udeskApi.js?_t=1475044663008", "ud");
+    ud({
+      code: "gigdb0a",
+      targetSelector: "#cc",
+      link: "//weizhang.udesk.cn/im_client",
+      group_id: "32981",
+      mobile: {
+          mode: "blank",
+          color: "#307AE8",
+          pos_flag: "crb",
+          pop: {
+              direction: "top",
+              arrow: {
+                  top: 0,
+                  left: "70%"
+              }
+          }
+      },
+      mode: "inner",
+      color: "#307AE8",
+      pos_flag: "srb",
+      onlineText: "联系客服，在线咨询",
+      offlineText: "客服下班，请留言",
+      pop: {
+          direction: "top",
+          arrow: {
+              top: 0,
+              left: "80%"
+          }
       }
-      fun(document, window);
-    </script>
-    <!-- 引入移动端调试工具 -->
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-    <script>
-      eruda.init();
-      //禁用客户端右上角的功能按钮
-      window['CHELUN_SHOW_MENU_ITEMS'] = ['menu:refresh', 'menu:share:wxMessage', 'menu:share:wxTimeline'];
-    </script>
-    <style>
-      body{
-        font-size: .28rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="./dist/build.js"></script>
-  </body>
+    })
+  </script>
+  <script>
+    eruda.init();
+    //禁用客户端右上角的功能按钮
+    window['CHELUN_SHOW_MENU_ITEMS'] = ['menu:refresh', 'menu:share:wxMessage', 'menu:share:wxTimeline'];
+
+  </script>
+  <style>
+    body {
+      font-size: .28rem;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="./dist/build.js"></script>
+</body>
+
 </html>
