@@ -13,6 +13,7 @@
     </div>
      <img :src="src">
 
+    <router-link to="/address">去收货地址页面</router-link>
     <div class="bottom">
       <button id="cc">跳转客服</button>
       <a href="mailto:342690199@qq.com">打电话</a>
@@ -24,7 +25,7 @@
 import Upload from '@/components/Upload'
 import TypePicker from '@/components/TypePicker'
 import CityPicker from '@/components/CityPicker'
-import {doPay} from '@/api/index'
+import {doPay, uploadBase64} from '@/api/index'
 
 export default {
   data(){
@@ -43,14 +44,16 @@ export default {
     pay(){
       doPay();
     },
-    fileUpload(e){
+    async fileUpload(e){
       console.log('e.target...', e.target.files)
       let reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = ()=>{
-         this.src = reader.result;
+        this.src = reader.result;
+        console.log('reader.result...', reader.result);
          var img = new Image();
-         img.onload = ()=>{
+         img.src = reader.result;
+         img.onload = async ()=>{
            console.log(img.width, img.height);
            var canvas = document.createElement('canvas');
            var context = canvas.getContext('2d');
@@ -59,9 +62,12 @@ export default {
            context.drawImage(img, 0, 0, img.width, img.height);
           //  console.log(canvas.toDataURL());
 
-          // var baseStr = canvas.toDataURL('image/png', 0.1);
-          // var baseStr = canvas.toDataURL('image/png', 1);
-          // console.log(baseStr.length);
+          var baseStr1 = canvas.toDataURL('image/jpg', 0.1);
+          var baseStr2 = canvas.toDataURL('image/png', 1);
+          console.log(baseStr1, baseStr2);
+          let res1 = await uploadBase64(baseStr1);
+          let res2 = await uploadBase64(baseStr2);
+          console.log('res1...', res1, 'res2...', res2);
           //  // 计算base64的大小
           //  var tag="base64,";
           //  baseStr=baseStr.substring(baseStr.indexOf(tag)+tag.length);
@@ -72,7 +78,7 @@ export default {
           // var fileSize=strLen-(strLen/8)*2
           // console.log("文件大小:"+fileSize);
          }
-         img.src = reader.result;
+
       }
     }
   }

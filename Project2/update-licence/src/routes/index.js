@@ -7,6 +7,7 @@ import {doLogin} from '@/api/index';
 // 路由组件
 import IndexPage from '@/pages/Index.vue';
 import FaqPage from '@/pages/Faq.vue';
+import AddressPage from '@/pages/Address.vue';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,9 @@ const router = new VueRouter({
   },{
     path: '/faq',
     component: FaqPage
+  },{
+    path: '/address',
+    component: AddressPage
   },{
     path: '*',
     redirect: '/index'

@@ -4,7 +4,10 @@ import pay from '@/utils/pay.js';
 
 function sendRequest(url, method = 'GET', data = {}) {
     let params = {
-        method
+        method,
+        headers: {
+          'content-type': 'application/json'
+        }
     };
     // 判断如果是一个post请求，带上请求体信息
     if (method == 'POST') {
@@ -29,6 +32,16 @@ export let doLogin = ()=>{
   JSBridge.invoke('app', 'login', {
     loginCallBackName: res=>window.location.reload()
   });
+}
+
+// 唤起分享
+export let doShare = ()=>{
+  JSBridge.invoke('ui', 'shareMessage');
+}
+
+// 上传base64
+export let uploadBase64 = (base64)=>{
+  return sendRequest('http://123.206.55.50:11000/upload_base64', 'POST', {base64})
 }
 
 // 唤起支付
