@@ -5,9 +5,14 @@ import {getToken} from '@/utils/index';
 import {doLogin} from '@/api/index';
 
 // 路由组件
-import IndexPage from '@/pages/Index.vue';
-import FaqPage from '@/pages/Faq.vue';
-import AddressPage from '@/pages/Address.vue';
+// import IndexPage from '@/pages/Index.vue';
+// import FaqPage from '@/pages/Faq.vue';
+// import AddressPage from '@/pages/Address.vue';
+
+// 路由按需加载
+const IndexPage = ()=>import('@/pages/Index.vue');
+const FaqPage = ()=>import('@/pages/Faq.vue');
+const AddressPage = ()=>import('@/pages/Address.vue');
 
 Vue.use(VueRouter);
 

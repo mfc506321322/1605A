@@ -14,6 +14,7 @@
      <img :src="src">
 
     <router-link to="/address">去收货地址页面</router-link>
+    <canvas id="canvas"></canvas>
     <div class="bottom">
       <button id="cc">跳转客服</button>
       <a href="mailto:342690199@qq.com">打电话</a>
@@ -47,6 +48,10 @@ export default {
     async fileUpload(e){
       console.log('e.target...', e.target.files)
       let reader = new FileReader();
+      // 判断图片是否过多
+      if (e.target.files[0].size > 1024*300){
+
+      }
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = ()=>{
         this.src = reader.result;
@@ -55,30 +60,32 @@ export default {
          img.src = reader.result;
          img.onload = async ()=>{
            console.log(img.width, img.height);
-           var canvas = document.createElement('canvas');
+           var canvas = document.getElementById('canvas');
            var context = canvas.getContext('2d');
            canvas.width = img.width;
            canvas.height = img.height;
-           context.drawImage(img, 0, 0, img.width, img.height);
+           // 压缩画布
+          context.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width/2, img.height/2);
+
+          // 绘制一张网络图片
+          var img2 = new Image();
+          img2.crossOrigin = 'anonymous'
+          var url = 'http://123.206.55.50:11000/static/9c5ab5222bb94e9beec79ded.jpg';
+          let data = await imageToBase64(url)
+          console.log('data...', data);
+          img2.src = 'data:image/jpeg;base64,'+data;
+          img2.onload = async ()=>{
+            context.drawImage(img2, 0, 0, img2.width, img2.height, 50, 50, img2.width/2, img2.height/2);
+             // toDataUrl时，设置为jpeg或者图片质量
+            var baseStr1 = canvas.toDataURL('image/jpeg', 0.7);
+            var baseStr2 = canvas.toDataURL('image/png', 1);
+            // console.log(baseStr1, baseStr2);
+            let res1 = await uploadBase64(baseStr1);
+            let res2 = await uploadBase64(baseStr2);
+            console.log('res1...', res1, 'res2...', res2);
+          }
           //  console.log(canvas.toDataURL());
-
-          var baseStr1 = canvas.toDataURL('image/jpg', 0.1);
-          var baseStr2 = canvas.toDataURL('image/png', 1);
-          console.log(baseStr1, baseStr2);
-          let res1 = await uploadBase64(baseStr1);
-          let res2 = await uploadBase64(baseStr2);
-          console.log('res1...', res1, 'res2...', res2);
-          //  // 计算base64的大小
-          //  var tag="base64,";
-          //  baseStr=baseStr.substring(baseStr.indexOf(tag)+tag.length);
-          // // 去掉=
-          // var eqTagIndex=baseStr.indexOf("=");
-          // baseStr=eqTagIndex!=-1?baseStr.substring(0,eqTagIndex):baseStr;
-          // var strLen=baseStr.length;
-          // var fileSize=strLen-(strLen/8)*2
-          // console.log("文件大小:"+fileSize);
          }
-
       }
     }
   }
