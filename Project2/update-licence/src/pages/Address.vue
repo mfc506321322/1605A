@@ -6,6 +6,7 @@
 import {doShare} from '@/api/index';
 export default {
   created() {
+    console.log(55555);
     // 分享到朋友圈
     window['CHELUN_SHARE_DATA_WXTIMELINE'] = {
       title: '分享一张大图',

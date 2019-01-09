@@ -29,18 +29,20 @@ import CityPicker from '@/components/CityPicker'
 import {doPay, uploadBase64} from '@/api/index'
 
 export default {
+  name: 'Index',
   data(){
     return {
       src: ''
     }
   },
-  provide(){
-    return {
-      cb: (res)=>{console.log('res...', res, this.a);this.cb(res)},
-      num: 100
-    }
-  },
   created() {
+    console.log(1223);
+  },
+  activated(){
+    console.log(1224);
+  },
+  deactivated(){
+     console.log(1225);
   },
   components: {
     Upload,
