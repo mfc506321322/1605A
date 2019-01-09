@@ -13,6 +13,7 @@
         <button @click="cancel">取消</button>
       </div>
     </div>
+    <p>{{num}}</p>
   </ul>
 </template>
 
@@ -21,11 +22,23 @@ import {mapState, mapMutations} from 'vuex';
 import {uploadImg} from '@/api/index';
 import add from '@/assets/add.png';
 export default {
+  inject: {
+    num: {
+      from: 'num',
+      default: 10000
+    },
+    cb: {
+      default: ()=>{}
+    }
+  },
   data(){
     return {
       current: {},
       showMask: false
     }
+  },
+  created() {
+    this.cb('https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3360034032,4096528553&fm=26&gp=0.jpg')
   },
   name: 'Upload',
   computed: {

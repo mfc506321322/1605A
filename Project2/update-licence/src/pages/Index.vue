@@ -34,6 +34,12 @@ export default {
       src: ''
     }
   },
+  provide(){
+    return {
+      cb: (res)=>{console.log('res...', res, this.a);this.cb(res)},
+      num: 100
+    }
+  },
   created() {
   },
   components: {
@@ -42,6 +48,9 @@ export default {
     CityPicker
   },
   methods: {
+    cb(res){
+      this.src = res;
+    },
     pay(){
       doPay();
     },
