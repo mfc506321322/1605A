@@ -31,6 +31,7 @@ import nestedRouter from './modules/nested'
     breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
   }
 **/
+// 固定路由,不受权限控制
 export const constantRouterMap = [
   {
     path: '/redirect',
@@ -110,6 +111,7 @@ export default new Router({
   routes: constantRouterMap
 })
 
+// 异步路由,需要匹配权限来渲染
 export const asyncRouterMap = [
   {
     path: '/permission',
