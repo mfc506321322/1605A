@@ -1,5 +1,7 @@
 import { loginByUsername, logout, getUserInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { Message } from 'element-ui'
+import md5 from 'md5';
 
 const user = {
   state: {
@@ -48,11 +50,23 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
-          resolve()
+        loginByUsername(username, md5(userInfo.password+'1605A')).then(response => {
+          console.log('response...', response);
+          let {data} = response;
+          if (data.code == 1){
+            commit('SET_TOKEN', response.data.data.token)
+            setToken(response.data.data.token)
+            resolve()
+
+            // 设置权限,用户名,头像,简介
+            commit('SET_ROLES', ['admin'])
+            commit('SET_NAME', '陈蔓杰')
+            commit('SET_AVATAR', 'https://avatars1.githubusercontent.com/u/8192412?s=460&v=4')
+            commit('SET_INTRODUCTION', 'data.introduction')
+          }else{
+            reject(response.data.msg)
+            Message.error(response.data.msg)
+          }
         }).catch(error => {
           reject(error)
         })
