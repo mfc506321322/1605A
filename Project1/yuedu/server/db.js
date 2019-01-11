@@ -1,4 +1,4 @@
-var mysql=require("mysql");
+var mysql=require("mysql2");
 
 let env = process.env.ENV;
 // 创建连接池
@@ -38,7 +38,7 @@ var query=function(sql,options,callback=()=>{}){
         }else{
             conn.query(sql,options,function(err,results,fields){
                 //释放连接
-                conn.release();
+                pool.releaseConnection(conn);
                 //事件驱动回调
                 callback(err,results,fields);
             });

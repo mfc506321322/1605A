@@ -62,6 +62,7 @@ router.post('/smsLogin', function(req, res, next) {
 })
 // 登陆功能
 router.post('/login', function(req, res, next) {
+  console.log('req.body...', req.body);
   query('select id from user where username=? and password = ?', [req.body.username, req.body.password], function(error, results, fields){
     if (error){
       res.json({
