@@ -1,18 +1,18 @@
 import Vue from 'vue'
-// cookie操作库
+// 引入cookie操作
 import Cookies from 'js-cookie'
-// 重置浏览器样式
+// 引入公共样式，消除浏览器的差异
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 // 引入element-ui
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 引入全局样式
 import '@/styles/index.scss' // global css
-// 引入路由入口
+// 引入根组件
 import App from './App'
 // 引入路由配置
 import router from './router'
-// 引入vuex
+// 引入数据管理
 import store from './store'
 // 引入国际化配置
 import i18n from './lang' // Internationalization
@@ -22,21 +22,21 @@ import './icons' // icon
 import './errorLog' // error log
 // 引入权限管理
 import './permission' // permission control
-// 引入mock拦截
+// 引入mock拦截请求
 import './mock' // simulation data
-// 引入全局过滤器
+// 引入自定义过滤器
 import * as filters from './filters' // global filters
-// 挂载elemnt-ui
+// 使用element-ui
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
-// 挂载全局过滤器
+// 挂载全局自定义过滤器
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-// 阻止生成提示
+// 去掉生成环境提示
 Vue.config.productionTip = false
 
 new Vue({

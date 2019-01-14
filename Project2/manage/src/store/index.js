@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createLogger from 'vuex/dist/logger'
-
-// 数据子模块
 import app from './modules/app'
 import errorLog from './modules/errorLog'
 import permission from './modules/permission'
@@ -20,8 +17,7 @@ const store = new Vuex.Store({
     tagsView,
     user
   },
-  getters,
-  plugins: [createLogger()]
+  getters
 })
 
 export default store
