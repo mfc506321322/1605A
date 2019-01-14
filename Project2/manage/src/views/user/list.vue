@@ -4,16 +4,28 @@
       :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
       style="width: 100%">
       <el-table-column
-        label="Date"
-        prop="date">
+        label="ID"
+        prop="id">
       </el-table-column>
       <el-table-column
-        label="Name"
-        prop="name">
+        label="userName"
+        prop="username">
+      </el-table-column>
+       <el-table-column
+        label="Email"
+        prop="email">
       </el-table-column>
        <el-table-column
         label="Address"
         prop="address">
+      </el-table-column>
+       <el-table-column
+        label="Phone"
+        prop="phone">
+      </el-table-column>
+       <el-table-column
+        label="Roler"
+        prop="">
       </el-table-column>
       <el-table-column
         align="right">
@@ -30,13 +42,14 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            @click="handleDelete(scope.$index, scope.row)">分配权限</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination layout="prev, pager, next" :currentPage="currentPage" background :total="100" @current-change="loadData"></el-pagination>
 
     <el-dialog
-      title="提示"
+      :title="type==edit?'修改用户信息':'为用户分配权限'"
       :visible.sync="dialogVisible"
       width="50%"
       :before-close="handleClose">
@@ -56,6 +69,27 @@
         <el-form-item label="地址" prop="address">
           <el-input v-model.number="current.address"></el-input>
         </el-form-item>
+        <el-form-item label="我的角色" prop="roler">
+          <el-tag
+            v-for="tag in myTag"
+            :key="tag"
+            closable
+            style="marginRight: 5px"
+            @close="deleteTag(tag)"
+            :type="tag.type">
+            {{tag}}
+          </el-tag>
+
+        </el-form-item>
+        <el-form-item label="所有角色">
+          <el-tag
+            v-for="tag in tags"
+            :key="tag"
+            style="marginRight: 5px"
+            :type="tag.type">
+            <span  @click="selectTag">{{tag}}</span>
+          </el-tag>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm()">提交</el-button>
           <el-button @click="handleClose">取消</el-button>
@@ -66,6 +100,7 @@
 </template>
 
 <script>
+  import {mapState, mapActions} from 'vuex';
   export default {
     data() {
       const dateValidate = (ruler, value, callback)=>{
@@ -77,23 +112,9 @@
         }
       }
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
+        type: '',
+        tags: ['developer','producter','boss','operator', 'designer'],
+        myTag: [],
         search: '',
         current: {},
         rules: {
@@ -104,13 +125,33 @@
         dialogVisible: false
       }
     },
+    computed: {
+      ...mapState({
+        tableData: state=>state.list.list,
+        currentPage: state=>state.list.current
+      })
+    },
+    created(){
+      this.getUserList();
+    },
     methods: {
+      ...mapActions({
+        getUserList: 'list/GetUserList'
+      }),
+      loadData(page){
+        console.log('page...', page);
+        this.getUserList([`page=${page}`])
+      },
       handleEdit(index, row) {
         this.dialogVisible = true;
+        this.type = 'edit';
         this.current = row;
         console.log(index, row);
       },
       handleDelete(index, row) {
+        this.dialogVisible = true;
+        this.type = 'permission';
+        this.current = row;
         console.log(index, row);
       },
       handleClose(){
@@ -134,6 +175,16 @@
           }
         })
         console.log('current...', this.current);
+      },
+      selectTag(e){
+        console.log('e...', e);
+        let tag = e.target.innerText;
+        this.myTag.push(tag);
+        this.myTag = [...new Set(this.myTag)];
+      },
+      deleteTag(tag){
+        let index = this.myTag.findIndex(item=>item==tag);
+        this.myTag.splice(index,1);
       }
     },
   }
