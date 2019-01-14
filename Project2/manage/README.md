@@ -8,3 +8,21 @@
 - excel的导入导出
 - 个人信息修改
 - echarts可视化成绩
+
+
+### 角色列表
+- developer
+  - coding
+  - review
+  - commit
+- producter
+  - prd
+  - demand
+- operater
+  - demand
+  - activity
+- designer
+  - prd 
+  - ui
+- boss
+  - admin
