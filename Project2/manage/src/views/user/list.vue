@@ -49,11 +49,14 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">分配权限</el-button>
+            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+          <el-button
+            size="mini"
+            @click="handleRoler(scope.$index, scope.row)">分配权限</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination layout="prev, pager, next" :currentPage="currentPage" background :total="100" @current-change="loadData"></el-pagination>
+    <el-pagination layout="prev, pager, next" :current-page="currentPage" :pager-count="11" background :total="100" @current-change="loadData"></el-pagination>
 
     <el-dialog
       :title="type=='edit'?'修改用户信息':'为用户分配权限'"
@@ -141,13 +144,13 @@
           username: [{trigger:'blur', required: 'true'}],
           address: [{trigger:'blur', required: 'true'}]
         },
-        dialogVisible: false
+        dialogVisible: false,
+        currentPage: 1,
       }
     },
     computed: {
       ...mapState({
-        tableData: state=>state.list.list,
-        currentPage: state=>state.list.current
+        tableData: state=>state.list.list
       })
     },
     created(){
@@ -156,9 +159,11 @@
     methods: {
       ...mapActions({
         getUserList: 'list/GetUserList',
-        updateUserInfo: 'list/UpdateUserInfo'
+        updateUserInfo: 'list/UpdateUserInfo',
+        deleteUser: 'list/DeleteUser'
       }),
       loadData(page){
+        this.currentPage = page;
         console.log('page...', page);
         this.getUserList([`page=${page}`])
       },
@@ -169,6 +174,22 @@
         console.log(index, row);
       },
       handleDelete(index, row) {
+        let {id} = row;
+        this.deleteUser({uid:id}).then(res=>{
+          this.$message({
+            message: res,
+            type: 'success'
+          });
+          // 重新请求数据
+          this.getUserList([`page=${this.currentPage}`])
+        }).catch(err=>{
+          this.$message({
+            message: error,
+            type: 'error'
+          });
+        })
+      },
+      handleRoler(index, row){
         this.dialogVisible = true;
         this.type = 'permission';
         this.current = {...row};
@@ -186,11 +207,15 @@
                 message: res,
                 type: 'success'
               });
+              this.dialogVisible = false;
+              // 重新请求数据
+              this.getUserList([`page=${this.currentPage}`])
             }).catch(err=>{
               this.$message({
                 message: error,
                 type: 'error'
               });
+              this.dialogVisible = false;
             })
           }
         })
