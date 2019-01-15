@@ -1,4 +1,4 @@
-import {getUserList} from '@/api/list'
+import {getUserList, updateUserInfo} from '@/api/list'
 
 const state = {
   list: [],
@@ -21,6 +21,21 @@ const actions = {
           resolve();
         }else{
           reject();
+        }
+      }).catch(err=>{
+        reject(err);
+      })
+    })
+  },
+  // 更新用户信息
+  UpdateUserInfo({commit}, data){
+    return new Promise((resolve, reject)=>{
+      updateUserInfo(data).then(res=>{
+        console.log('res...', res);
+        if (res.data.code == 1){
+          resolve(res.data.msg);
+        }else{
+          reject(res.data.msg);
         }
       }).catch(err=>{
         reject(err);

@@ -11,20 +11,20 @@
 
 
 ### 角色列表
-- developer
+- 1.boss
+  - admin (管理员权限)
+- 2.developer
   - coding (开发代码)
   - review (代码审查)
   - commit (代码提交)
-- producter
+- 3.producter
   - prd    (产品原型)
   - demand (产品需求)
-- operater
+- 4.operater
   - demand (运营需求)
   - activity (运营活动)
-- designer
+- 5.designer
   - prd (产品原型)
   - ui  (产品设计稿)
-- boss
-  - admin (管理员权限)
 
 所有角色都有的权限：staff(普通员工)
