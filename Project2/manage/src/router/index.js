@@ -13,6 +13,8 @@ import tableRouter from './modules/table'
 import nestedRouter from './modules/nested'
 // 引入用户路由
 import userRouter from './modules/users'
+// 引入组织架构路由
+import organizeRouter from './modules/organize'
 
 /** note: Submenu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -124,7 +126,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'permission',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['admin', 'coding'] // you can set roles in root nav
     },
     children: [
       {
@@ -133,7 +135,7 @@ export const asyncRouterMap = [
         name: 'PagePermission',
         meta: {
           title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          // roles: ['admin'] // or you can only set roles in sub nav
         }
       },
       {
@@ -151,6 +153,7 @@ export const asyncRouterMap = [
   {
     path: '/icon',
     component: Layout,
+    meta: {roles: ['admin']},
     children: [
       {
         path: 'index',
@@ -166,6 +169,7 @@ export const asyncRouterMap = [
   chartsRouter,
   nestedRouter,
   tableRouter,
+  organizeRouter,
 
   {
     path: '/example',
