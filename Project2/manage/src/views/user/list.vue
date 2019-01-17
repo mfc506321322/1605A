@@ -15,6 +15,13 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="createTime"
+        prop="avatar">
+         <template slot-scope="scope">
+          <span>{{scope.row.create_time | toThousandFilter}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="userName"
         prop="username">
       </el-table-column>

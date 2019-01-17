@@ -1,33 +1,44 @@
 <template>
   <div>
     <h1>当前路径：{{this.$route.path}}</h1>
-    <div class="block">
-      <p>使用 scoped slot</p>
-      <el-tree
-        :data="data"
-        show-checkbox
-        node-key="id"
-        default-expand-all=false
-        :expand-on-click-node="false">
-        <span class="custom-tree-node" slot-scope="{ node, data }">
-          <span>{{ node.name }}</span>
-          <span>
-            <el-button
-              type="text"
-              size="mini"
-              @click="() => append(data)">
-              Append
-            </el-button>
-            <el-button
-              type="text"
-              size="mini"
-              @click="() => remove(node, data)">
-              Delete
-            </el-button>
-          </span>
+    <el-tree
+      :data="data"
+      show-checkbox
+      ref="tree"
+      node-key="id"
+      default-expand-all
+      draggable
+      :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.data.name }}</span>
+        <span>
+          <el-button
+            v-permission="['staff']"
+            type="text"
+            size="mini"
+            @click="() => append(node, data)">
+            Append
+          </el-button>
+          <el-button
+            v-permission="['staff']"
+            type="text"
+            size="mini"
+            @click="() => remove(node, data)">
+            Delete
+          </el-button>
         </span>
-      </el-tree>
-    </div>
+      </span>
+    </el-tree>
+    <el-dialog
+      title="添加职位"
+      :visible.sync="dialogVisible"
+      width="50%">
+      <el-input placeholder="请输入你要添加的职位" v-model="temp"/>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitDialog">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -36,6 +47,9 @@ export default {
   data(){
     return {
       path: this.$route,
+      dialogVisible: false,
+      temp: '',
+      current: {},
       data: [],
       // 参考某轮
       organize: [{
@@ -95,9 +109,9 @@ export default {
           this.findItem(newArr, item);
         }
       })
-      console.log('newArr...', newArr);
       this.data = newArr;
     },
+    // 递归查找当前元素的父元素
     findItem(arr, item){
       arr.forEach((value, key)=>{
         if (item.parentid == value.id){
@@ -110,6 +124,35 @@ export default {
           this.findItem(value.children, item);
         }
       })
+    },
+    // 添加元素
+    append(node, data){
+      console.log('node...', node, 'data...', data);
+      this.dialogVisible = true;
+      this.current = {
+        node,
+        data
+      }
+    },
+    // 移除节点
+    remove(node, data){
+       this.$refs.tree.remove(node)
+    },
+    // 添加职位
+    submitDialog(){
+      if (this.temp){
+        let newNode = {
+          id: this.organize[this.organize.length-1].id+1,
+          name: this.temp,
+          parentid: this.current.data.id || ''
+        }
+        this.organize.push(newNode);
+        console.log('organize...', this.organize);
+        this.$refs.tree.append(newNode, this.current.node)
+        this.dialogVisible = false;
+        this.temp = '';
+        // this.formatData(this.organize);
+      }
     }
   },
   created() {
