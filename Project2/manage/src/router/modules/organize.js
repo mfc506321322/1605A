@@ -11,8 +11,12 @@ const userRouter = {
     title: 'Organize',
     icon: 'table'
   },
-  children: [
-    {
+  children: [{
+      path: 'index',
+      component: () => import('@/views/organize/index'),
+      name: 'Index',
+      meta: {title: 'OrganizeList'}
+    },{
       path: 'coding',
       component: () => import('@/views/organize/index'),
       name: 'Coding',

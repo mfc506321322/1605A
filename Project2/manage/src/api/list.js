@@ -62,9 +62,9 @@ var arr = [
 
 // 参考某轮
 var organize = [{
-  id: 1, name: '查违章事业部', parentid: ''
+  id: 1, name: '***事业部', parentid: ''
 },{
-  id: 2, name: '考驾照事业部', parentid: ''
+  id: 2, name: '***事业部', parentid: ''
 },{
   id: 3, name: '总经办', parentid: ''
 },{
@@ -106,3 +106,4 @@ var organize = [{
 },{
   id: 22, name: '孙月', parentid: 20
 }]
+
