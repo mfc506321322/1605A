@@ -97,7 +97,8 @@
         <el-form-item v-if="type=='edit'" label="头像" prop="avatar">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://123.206.55.50:11000/upload"
+            :on-success="uploadSuccess"
             :show-file-list="false">
             <img v-if="current.avatar" :src="current.avatar" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -190,6 +191,17 @@
         deleteUser: 'list/DeleteUser',
         modifyRule: 'list/ModifyRule'
       }),
+      uploadSuccess(response, file, filelist){
+        console.log('response....', response, file, filelist);
+        if (response.code == 1){
+          this.current.avatar = response.data[0].path;
+        }else{
+           this.$message({
+            message: response.msg,
+            type: 'error'
+          });
+        }
+      },
       loadData(page){
         this.currentPage = page;
         console.log('page...', page);
@@ -231,8 +243,8 @@
         if (this.type == 'edit'){
           this.$refs.ruleForm.validate(valid=>{
             if (valid){
-              let {id, username, address, email, phone} = this.current;
-              this.updateUserInfo({id,username,address,email,phone}).then(res=>{
+              let {id, username, avatar, address, email, phone} = this.current;
+              this.updateUserInfo({id,avatar,username,address,email,phone}).then(res=>{
                 this.$message({
                   message: res,
                   type: 'success'
