@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-button :loading="downloadLoading" style="margin:0 0 20px 20px;" type="primary" icon="document" @click="handleDownload">{{ $t('excel.export') }} Excel</el-button>
     <el-table
       :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
       style="width: 100%">
@@ -18,7 +19,7 @@
         label="createTime"
         prop="avatar">
          <template slot-scope="scope">
-          <span>{{scope.row.create_time | toThousandFilter}}</span>
+          <span>{{scope.row.create_time}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -167,6 +168,7 @@
         myTag: [],
         search: '',
         current: {},
+        downloadLoading: false,
         rules: {
           phone: [{trigger: 'blur', validator: phoneValidate}],
           username: [{trigger:'blur', required: 'true'}],
@@ -201,6 +203,25 @@
             type: 'error'
           });
         }
+      },
+      handleDownload(){
+        this.downloadLoading = true
+        import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['ID', 'cretaTime', 'Avatar', 'userName', 'Email', 'Address', 'Phone', 'Roler', 'Access']
+
+          const data = this.tableData.map((item)=>{
+            let {id, create_time, avatar, username, email, address, phone, rolers, access} = item;
+            return [id, create_time, avatar, username, email, address, phone, rolers, access];
+          })
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: '用户数据',
+            autoWidth: 'auto',
+            bookType: 'xlsx'
+          })
+          this.downloadLoading = false
+        })
       },
       loadData(page){
         this.currentPage = page;

@@ -24,6 +24,8 @@ import './errorLog' // error log
 import './permission' // permission control
 // 引入mock拦截请求
 // import './mock' // simulation data
+// 引入v-charts
+import VCharts from 'v-charts'
 
 // 引入自定义过滤器
 import * as filters from './filters' // global filters
@@ -36,6 +38,7 @@ Mock.mock(/\/abc\/123/, 'get', res=>{
   console.log('res...', res);
 })
 fetch('/abc/123');
+Vue.use(VCharts)
 // 注册指令
 Vue.directive('permission', permission);
 // 使用element-ui
