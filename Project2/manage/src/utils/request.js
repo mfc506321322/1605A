@@ -5,11 +5,14 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
+  // 设置请求的根地址
   baseURL: process.env.BASE_API, // api 的 base_url
+  // 设置超时时间
   timeout: 5000 // request timeout
 })
 
 // request interceptor
+// axios的请求拦截器，所有请求走到这里都回被包裹一层
 service.interceptors.request.use(
   config => {
     // Do something before request is sent
@@ -27,6 +30,7 @@ service.interceptors.request.use(
 )
 
 // response interceptor
+// axios的响应拦截器，所有响应走到这里会被先处理一遍
 service.interceptors.response.use(
   response => response,
   /**

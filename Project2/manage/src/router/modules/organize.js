@@ -18,7 +18,7 @@ const userRouter = {
       meta: {title: 'OrganizeList'}
     },{
       path: 'coding',
-      component: () => import('@/views/organize/index'),
+      component: () => import('@/views/organize/coding'),
       name: 'Coding',
       meta: { title: 'Coding',roles: ['coding'] }
     },{
