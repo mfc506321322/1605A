@@ -1,0 +1,7 @@
+<template name="10a19786">
+  <view class="_div data-v-4d761a47">
+    <i-button type="success" shape="circle" size="small" class="_i-button data-v-4d761a47">我是按钮</i-button>
+    <i-tag class="_i-tag data-v-4d761a47 i-tags" name="标签一" type="border" color="red"> 标签一 </i-tag>
+    <i-tag class="_i-tag data-v-4d761a47 i-tags" name="标签一" color="green" type="border"> 标签一 </i-tag>
+  </view>
+</template>

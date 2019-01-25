@@ -1,0 +1,11 @@
+<import src="/components/card.vue.wxml" />
+<import src="/components/compb.vue.wxml" /><template name="0396ecfd">
+  <view class="_div data-v-167bd626 counter-warp">
+    <view class="_p data-v-167bd626">Mpvue</view>
+    <view class="_p data-v-167bd626">ts value {{ ver }}</view> <template text="card component" data="{{...$root[$kk+'0'], $root}}" is="63db1e23"></template> <template text="hello2" data="{{...$root[$kk+'1'], $root}}" is="56dfa9a0"></template>
+    <comp-alias text="hello3" class="_comp-alias data-v-167bd626"></comp-alias>
+    <navigator url="{{AppUrls.COUNTER}}" class="_a data-v-167bd626 home">去往vuex</navigator>
+    <navigator url="{{AppUrls.PACKAGE_A}}" class="_a data-v-167bd626 home">分包A</navigator>
+    <navigator url="/pages/testExtend/main" class="_a data-v-167bd626 home">测试继承</navigator>
+  </view>
+</template>
